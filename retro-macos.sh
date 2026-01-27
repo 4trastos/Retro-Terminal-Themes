@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 
-# Función para aplicar colores mediante AppleScript
+# Definimos la ruta completa para evitar el error "command not found"
+OSASCRIPT="/usr/bin/osascript"
+
 set_terminal_colors() {
     local fg=$1
     local bg=$2
     local cursor=$3
 
-    osascript <<EOT
+    $OSASCRIPT <<EOT
         tell application "Terminal"
-            set current settings of window 1 to {short name:"Retro"}
             tell selected tab of front window
                 set normal text color to $fg
                 set background color to $bg
@@ -19,20 +20,19 @@ EOT
 }
 
 apply_green() {
-    # Formato {R, G, B} (0 a 65535)
-    set_terminal_colors "{0, 65535, 0}" "{0, 0, 0}" "{26214, 65535, 26214}"
+    set_terminal_colors "{0, 65535, 0, 0}" "{0, 0, 0, 0}" "{26214, 65535, 26214, 0}"
 }
 
 apply_amber() {
-    set_terminal_colors "{65535, 45056, 0}" "{0, 0, 0}" "{65535, 55552, 26214}"
+    set_terminal_colors "{65535, 45056, 0, 0}" "{0, 0, 0, 0}" "{65535, 55552, 26214, 0}"
 }
 
 apply_blue() {
-    set_terminal_colors "{0, 48895, 65535}" "{0, 0, 0}" "{26214, 55552, 65535}"
+    set_terminal_colors "{0, 48895, 65535, 0}" "{0, 0, 0, 0}" "{26214, 55552, 65535, 0}"
 }
 
 restore_default() {
-    osascript -e 'tell application "Terminal" to set current settings of window 1 to settings set "Basic"'
+    $OSASCRIPT -e 'tell application "Terminal" to set current settings of window 1 to settings set "Basic"'
 }
 
 clear
